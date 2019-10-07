@@ -55,7 +55,7 @@ The REST API provides a number of data endpoints as documented below.
 ### Orderbook snapshots
 Snapshots can be requested for a given exchange and coin pair using the following URL:
 
-> https://interop.cryptocompare.com/exchange-snapshot/api/getOrderBookByExchange/_**\<exchange>**_/_**\<coinfrom>**_-_**\<cointo>**_
+> https://interop.cryptocompare.com/exchange-snapshot/api/getOrderBookByExchange/\<exchange>/\<coinfrom>-\<cointo>
 
 The URL is case-sensitive, with the exception of _**\<exchange>**_ which is case insensitive.
 For example, the streaming service can be queried for Bitfinex snapshots with instrument Bitcoin/USD as follows:
@@ -213,7 +213,7 @@ Will return a JSON object specifying all presently known instruments to this ins
 
 Will return a JSON object specifying the best bid and best ask for all known instruments on this instance of the streaming service.
 
-> https://interop.cryptocompare.com/exchange-snapshot/api/getTopOfOrderBooksByExchange/_**\<exchange>**_
+> https://interop.cryptocompare.com/exchange-snapshot/api/getTopOfOrderBooksByExchange/\<exchange>
 
 Will return a JSON object specifying the best bid and best ask for all known instruments for a particular exchange.  
 
