@@ -199,7 +199,7 @@ Snapshots are provided in a raw ASCII format, similar to the streaming protocol 
 
 For example, a snapshot for Kraken Ethereum to USD, containing 2 bids and 2 asks, and sent after the 40<sup>th</sup> Kraken ETH-USD update message was sent by the streaming service, may take the form:
 
-> 9~kraken~ETH~USD|40:208.98~27,208.27~1.303:208.99~13,209.12~1.1
+> `9~kraken~ETH~USD|40:208.98~27,208.27~1.303:208.99~13,209.12~1.1`
 
 ### All Instruments
 
@@ -223,7 +223,7 @@ Connections should be made to port 8080.
 Data is sent using an ASCII streamer protocol with individual fields within messages are delimited by a ~ character and multiple messages are delimited by a | character.
 The streaming service sends a heartbeat message at 10 second intervals to all connected Websocket API clients.  The format is as follows:
 
-> 999~HEARTBEAT|
+> `999~HEARTBEAT|`
 
 Once a connection is established, it is necessary to send at least one subscription request to the streaming service in order to receive data. Connecting clients that do not send a subscription message will be disconnected after a short grace period.
 NB: The message formats are case-sensitive, with the exception of _**\<exchange>**_ which is case insensitive.
@@ -270,11 +270,11 @@ Action type refers to whether the message is for a subscribe or unsubscribe even
 
 The subs param is an array of strings containing qualified sources of the form:
 
-> _**\<sourceid>**_~_**\<exchange>**_~_**\<coinfrom>**_~_**\<cointo>**_
+> `<sourceid>~<exchange>~<coinfrom>~<cointo>`
 > 
 > or
 > 
-> _**\<sourceid>**_~_**\<exchange>**_
+> `<sourceid>~<exchange>`
 
 At least one source is required for a message to be valid.
 Here are some potential examples.
@@ -308,31 +308,31 @@ Here are some potential examples.
 
 Data subscriptions are made for a given exchange / coin pair combination.  The message format is as follows:
 
-> SUBSCRIBE~_**\<sourceid>**_~_**\<exchange>**_~_**\<coinfrom>**_~_**\<cointo>**_|
+> `SUBSCRIBE~<sourceid>~<exchange>~<coinfrom>~<cointo>|`
 >
 > or
 >
-> SUBSCRIBE~_**\<sourceid>**_~_**\<exchange>**_|
+> `SUBSCRIBE~<sourceid>~<exchange>|`
 
 The type of subscription that will be opened will depend on the supplied _sourceid_ in the message above. Where no _coinfrom_ and _cointo_ params are supplied, a subscription will be opened for the entire exchange data set if the _sourceid_ supports this.
 Multiple messages are required to subscribe to multiple exchange/instrument/sources and can be sent on connection start or any time thereafter. Unsubscribing from sources is performed via the UNSUBSCRIBE command and follows the same pattern.
 
-> UNSUBSCRIBE~_**\<sourceid>**_~_**\<exchange>**_~_**\<coinfrom>**_~_**\<cointo>**_|
+> `UNSUBSCRIBE~<sourceid>~<exchange>~<coinfrom>~<cointo>|`
 > 
 > or
 > 
-> UNSUBSCRIBE~_**\<sourceid>**_~_**\<exchange>**_|
+> `UNSUBSCRIBE~<sourceid>~<exchange>|`
 
 Successful subscriptions/un-subscriptions will be echoed back from the client.
 
 ##### For example, to subscribe to live Bitcoin to USD data for the Bitfinex exchange, the following message should be sent via the websocket:
 
-> SUBSCRIBE~8~bitfinex~BTC~USD|
+> `SUBSCRIBE~8~bitfinex~BTC~USD|`
 
 Subscriptions for level 1 (best bid / best ask) are made in the same way (with a given exchange / coin pair combination specified) however with a different source ID.
 
 ##### For example, to subscribe to live Bitcoin to USD data for the Bitfinex exchange, the following message should be sent via the websocket:
-> SUBSCRIBE~30~bitfinex~BTC~USD|
+> `SUBSCRIBE~30~bitfinex~BTC~USD|`
 
 Please refer to the sources field table below.
 #### Subscription sources
@@ -503,7 +503,7 @@ Snapshots are provided upon subscription in a raw ASCII format, as defined in th
 
 For example, a snapshot for Kraken Ethereum to USD, containing 2 bids and 2 asks, and sent after the 40<sup>th</sup> Kraken ETH-USD update message was sent by the streaming service, may take the form:
 
->9~kraken~ETH~USD:40:208.98~27,208.27~1.303:208.99~13,209.12~1.1
+> `9~kraken~ETH~USD:40:208.98~27,208.27~1.303:208.99~13,209.12~1.1`
 
 #### Live Data
 
@@ -639,7 +639,7 @@ Live Orderbook data will be sent in the format shown in the table below.
 
 For example, a bid update for Kraken Ethereum to USD, which is flagged by the upstream data source as the 40th Kraken ETH-USD message sent, may take the form:
 
-> 8~kraken~ETH~USD~1~4~40~208.27~1.303|
+> `8~kraken~ETH~USD~1~4~40~208.27~1.303|`
 
 ### Top of book Orderbook Data Format
 Live Orderbook data will be sent in the format shown in the table below.
@@ -770,7 +770,7 @@ Live Orderbook data will be sent in the format shown in the table below.
 
 For example, a best bid field update for Kraken Ethereum to USD, which is flagged by the upstream data source as the 10th Kraken ETH-USD message sent, may take the form:
 
-> 30~kraken~ETH~USD~1~10~100.10~6.05~1566398944495400100|
+> `30~kraken~ETH~USD~1~10~100.10~6.05~1566398944495400100|`
 
 ### Trade Data Format
 Live Trade data will be sent in the format shown in the table below.
@@ -993,4 +993,4 @@ Live Trade data will be sent in the format shown in the table below.
 
 For example, a "Sell" trade update for Kraken Ethereum to USD, which is flagged by the upstream data source as the 50th Kraken trade message sent, received on Friday, 30-Nov-18 at 17:30:31 UTC, and for which the Exchange provided a Trade ID of "TRADE-ABCDEFGHIJ", which the Exchange reported traded at 17:30:30, may take the form:
 
-> 0~kraken~ETH~USD~2~TRADE-ABCDEFGHIJ~1543599030123456~50~217.35~2.348~1543599031123456789~7f|
+> `0~kraken~ETH~USD~2~TRADE-ABCDEFGHIJ~1543599030123456~50~217.35~2.348~1543599031123456789~7f|`
