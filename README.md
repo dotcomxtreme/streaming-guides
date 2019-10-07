@@ -55,9 +55,9 @@ The REST API provides a number of data endpoints as documented below.
 ### Orderbook snapshots
 Snapshots can be requested for a given exchange and coin pair using the following URL:
 
-> https://interop.cryptocompare.com/exchange-snapshot/api/getOrderBookByExchange/\<exchange>/\<coinfrom>-\<cointo>
+> https://interop.cryptocompare.com/exchange-snapshot/api/getOrderBookByExchange/[exchange]/[coinfrom]-[cointo]
 
-The URL is case-sensitive, with the exception of _**\<exchange>**_ which is case insensitive.
+The URL is case-sensitive, with the exception of _**\[exchange]**_ which is case insensitive.
 For example, the streaming service can be queried for Bitfinex snapshots with instrument Bitcoin/USD as follows:
 
 > https://interop.cryptocompare.com/exchange-snapshot/api/getOrderBookByExchange/bitfinex/BTC-USD
@@ -213,7 +213,7 @@ Will return a JSON object specifying all presently known instruments to this ins
 
 Will return a JSON object specifying the best bid and best ask for all known instruments on this instance of the streaming service.
 
-> https://interop.cryptocompare.com/exchange-snapshot/api/getTopOfOrderBooksByExchange/\<exchange>
+> https://interop.cryptocompare.com/exchange-snapshot/api/getTopOfOrderBooksByExchange/[exchange]
 
 Will return a JSON object specifying the best bid and best ask for all known instruments for a particular exchange.  
 
@@ -226,7 +226,7 @@ The streaming service sends a heartbeat message at 10 second intervals to all co
 > `999~HEARTBEAT|`
 
 Once a connection is established, it is necessary to send at least one subscription request to the streaming service in order to receive data. Connecting clients that do not send a subscription message will be disconnected after a short grace period.
-NB: The message formats are case-sensitive, with the exception of _**\<exchange>**_ which is case insensitive.
+NB: The message formats are case-sensitive, with the exception of _**\[exchange]**_ which is case insensitive.
 
 ### Subscription messages
 
@@ -270,11 +270,11 @@ Action type refers to whether the message is for a subscribe or unsubscribe even
 
 The subs param is an array of strings containing qualified sources of the form:
 
-> `<sourceid>~<exchange>~<coinfrom>~<cointo>`
+> `[sourceid]~[exchange]~[coinfrom]~[cointo]`
 > 
 > or
 > 
-> `<sourceid>~<exchange>`
+> `[sourceid]~[exchange]`
 
 At least one source is required for a message to be valid.
 Here are some potential examples.
@@ -308,20 +308,20 @@ Here are some potential examples.
 
 Data subscriptions are made for a given exchange / coin pair combination.  The message format is as follows:
 
-> `SUBSCRIBE~<sourceid>~<exchange>~<coinfrom>~<cointo>|`
+> `SUBSCRIBE~[sourceid]~[exchange]~[coinfrom]~[cointo]|`
 >
 > or
 >
-> `SUBSCRIBE~<sourceid>~<exchange>|`
+> `SUBSCRIBE~[sourceid]~[exchange]|`
 
 The type of subscription that will be opened will depend on the supplied _sourceid_ in the message above. Where no _coinfrom_ and _cointo_ params are supplied, a subscription will be opened for the entire exchange data set if the _sourceid_ supports this.
 Multiple messages are required to subscribe to multiple exchange/instrument/sources and can be sent on connection start or any time thereafter. Unsubscribing from sources is performed via the UNSUBSCRIBE command and follows the same pattern.
 
-> `UNSUBSCRIBE~<sourceid>~<exchange>~<coinfrom>~<cointo>|`
+> `UNSUBSCRIBE~[sourceid]~[exchange]~[coinfrom]~[cointo]|`
 > 
 > or
 > 
-> `UNSUBSCRIBE~<sourceid>~<exchange>|`
+> `UNSUBSCRIBE~[sourceid]~[exchange]|`
 
 Successful subscriptions/un-subscriptions will be echoed back from the client.
 
@@ -368,7 +368,7 @@ Please refer to the sources field table below.
 #### Snapshot Data
 Snapshots are provided upon subscription in a raw ASCII format, as defined in the table below.
 
-<table><colgroup><col><col><col><col></colgroup>
+<table>
     <thead>
 		<tr>
 			<th>Entry</th>
