@@ -48,7 +48,7 @@ Action type refers to whether the message is for a subscribe or unsubscribe even
 		</tr>
 		<tr>
 			<td>SubRemove</td>
-			<td>Unsubscribe to the included sources</td>
+			<td>Unsubscribe from the included sources</td>
 		</tr>
 	</tbody>
 </table>
@@ -123,7 +123,7 @@ Please refer to the sources field table below.
 
 ## Trade channel
 
-The message schema for trade updates is defined in [Trade message format](WS_trade_format.md).
+The message schema for trade updates is defined in the [Trade message format](WS_trade_format.md).
 
 ## Level 1 (top of book) orderbook channel
 

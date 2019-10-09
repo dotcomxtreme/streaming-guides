@@ -161,10 +161,10 @@ Live Trade data will be sent in the format shown in the table below.
 			<td>Default separator</td>
 		</tr>
 		<tr>
-			<td>Presence Flag for "TradeFields" Entries</td>
+			<td>Presence flag for entries</td>
 			<td>String</td>
 			<td>Two digit lowercase hex</td>
-			<td>Bitflag used to indicate which of the entries defined in the "Streamer TradeFields Bitflags" table below have been included. Intended for futureproofing - at present, none of the entries are optional, with the result that the bitflag will be the same in every message.</td>
+			<td>Bitflag used to indicate which of the entries defined in Presence bit flag table below have been included within this message</td>
 		</tr>
 		<tr>
 			<td>Message separator</td>
@@ -175,12 +175,12 @@ Live Trade data will be sent in the format shown in the table below.
 	</tbody>
 </table>
 
+## Presence bit flag
+
+The bitflag will indicate which fields are present in the message by combining the bits into a hex formatted numeric ASCII value. Irrespective of which fields are included in a message, they will be ordered based on numeric sequence as defined below.
 
 <table>
 	<thead>
-		<tr>
-			<th colspan=2>Streamer TradeFields Bitflags</th>
-		</tr>
 		<tr>
 			<th>Entry</th>
 			<th>Flag</th>
@@ -218,6 +218,10 @@ Live Trade data will be sent in the format shown in the table below.
 	</tbody>
 </table>
 
-For example, a "Sell" trade update for Kraken Ethereum to USD, which is flagged by the upstream data source as the 50th Kraken trade message sent, received on Friday, 30-Nov-18 at 17:30:31 UTC, and for which the Exchange provided a Trade ID of "TRADE-ABCDEFGHIJ", which the Exchange reported traded at 17:30:30, may take the form:
+A message containing all of these fields would result in a bit flag value of **7f**. This is arrived at by the combination of all values (0x01 - 0x40) resulting in the hex value 0x7f which is represented as a string value. If one or more fields are omitted this value will be different. 
 
-> `0~kraken~ETH~USD~2~TRADE-ABCDEFGHIJ~1543599030123456~50~217.35~2.348~1543599031123456789~7f|`
+> `0~EXCHANGE~FROMSYM~TOSYM~SIDE~EXCHANGEID~TIMESTAMP~QUANTITY~PRICE~TOTAL~ID~7f|`
+
+In the below example, the trade message does not contain an Exchange ID (0x01) thus has a bitflag value of **7e** (0x7f-0x01).
+
+> `0~EXCHANGE~FROMSYM~TOSYM~SIDE~TIMESTAMP~QUANTITY~PRICE~TOTAL~ID~7e|`
