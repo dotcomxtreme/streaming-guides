@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -9,100 +11,110 @@ import (
 )
 
 const (
-	Trade           = 0
-	TopOfBook       = 30
-	Level2Orderbook = 8
+	trade           = 0
+	topOfBook       = 30
+	level2Orderbook = 8
 )
 
-type Message struct {
-	action  string
-	api_key string
-	subs    []string
+type message struct {
+	Action string   `json:"action"`
+	APIKey string   `json:"api_key"`
+	Subs   []string `json:"subs"`
 }
 
-type Subscription struct {
-	channel     int
-	exchange    string
-	market_from string
-	market_to   string
+type subscription struct {
+	channel    int
+	exchange   string
+	marketFrom string
+	marketTo   string
 }
 
-func GenerateFormattedSubscription(sub Subscription) string {
+func generateFormattedSubscription(sub subscription) string {
 
 	subMessage := `"`
 	subMessage += strconv.Itoa(sub.channel)
 	subMessage += `~`
 	subMessage += sub.exchange
-	if len(sub.market_from) != 0 && len(sub.market_to) != 0 {
+	if len(sub.marketFrom) != 0 && len(sub.marketTo) != 0 {
 		// optionally add market if supplied
 		subMessage += `~`
-		subMessage += sub.market_from
+		subMessage += sub.marketFrom
 		subMessage += `~`
-		subMessage += sub.market_to
+		subMessage += sub.marketTo
 	}
 	subMessage += `"`
 	return subMessage
 }
 
-func Subscribe(subs []Subscription, apiKey string) string {
-	subscribeMessage := `{"action":"SubAdd", "api_key":"`
-	subscribeMessage += apiKey
-	subscribeMessage += `", "subs":[`
+func subscribe(subs []subscription, apiKey string) (string, error) {
 
-	for index, sub := range subs {
-		if index != 0 {
-			subscribeMessage += `,`
-		}
-		subscribeMessage += GenerateFormattedSubscription(sub)
+	subscribeMessage := message{
+		Action: "SubAdd",
+		APIKey: apiKey,
 	}
 
-	subscribeMessage += `]}`
-	return subscribeMessage
-}
-
-func Unsubscribe(subs []Subscription, apiKey string) {
-	subscribeMessage := `{"action":"SubRemove", "api_key":"`
-	subscribeMessage += apiKey
-	subscribeMessage += `", "subs":[`
-
-	for index, sub := range subs {
-		if index != 0 {
-			subscribeMessage += `,`
-		}
-		subscribeMessage += GenerateFormattedSubscription(sub)
+	for _, sub := range subs {
+		subscribeMessage.Subs = append(subscribeMessage.Subs, generateFormattedSubscription(sub))
 	}
 
-	subscribeMessage += `]}`
+	b, err := json.Marshal(subscribeMessage)
+	if err != nil {
+		return "", fmt.Errorf("marshalling subscribeMessage, %s", err)
+	}
+
+	return string(b), nil
 }
 
-func HandleMessage(msg string) {
+func unsubscribe(subs []subscription, apiKey string) (string, error) {
+
+	unsubscribeMessage := message{
+		Action: "SubRemove",
+		APIKey: apiKey,
+	}
+
+	for _, sub := range subs {
+		unsubscribeMessage.Subs = append(unsubscribeMessage.Subs, generateFormattedSubscription(sub))
+	}
+
+	b, err := json.Marshal(unsubscribeMessage)
+	if err != nil {
+		return "", fmt.Errorf("marshalling unsubscribeMessage, %s", err)
+	}
+
+	return string(b), nil
+}
+
+func handleMessage(msg string) {
 	log.Println("Received ", msg)
 }
 
 func main() {
 	const url = "wss://streaming.cryptocompare.com"
 	// Subscribe to trade, level 1 and level 2 channels for a single instrument
-	subs := []Subscription{
-		Subscription{
-			channel:     Trade,
-			exchange:    "Coinbase",
-			market_from: "BTC",
-			market_to:   "USD",
+	subs := []subscription{
+		subscription{
+			channel:    trade,
+			exchange:   "Coinbase",
+			marketFrom: "BTC",
+			marketTo:   "USD",
 		},
-		Subscription{
-			channel:     TopOfBook,
-			exchange:    "Coinbase",
-			market_from: "BTC",
-			market_to:   "USD",
+		subscription{
+			channel:    topOfBook,
+			exchange:   "Coinbase",
+			marketFrom: "BTC",
+			marketTo:   "USD",
 		},
-		Subscription{
-			channel:     Level2Orderbook,
-			exchange:    "Coinbase",
-			market_from: "BTC",
-			market_to:   "USD",
+		subscription{
+			channel:    level2Orderbook,
+			exchange:   "Coinbase",
+			marketFrom: "BTC",
+			marketTo:   "USD",
 		},
 	}
-	subsMessage := Subscribe(subs, "YOUR-API-KEY")
+	subsMessage, err := subscribe(subs, "YOUR-API-KEY")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	interrupt := make(chan os.Signal, 1)
 	done := make(chan struct{})
@@ -126,7 +138,7 @@ func main() {
 					close(done)
 				}
 			} else {
-				HandleMessage(string(msg))
+				handleMessage(string(msg))
 			}
 		}
 	}()
