@@ -122,6 +122,18 @@ Live Orderbook data will be sent in the format shown in the table below.
 			<td>Quantity</td>
 		</tr>
 		<tr>
+			<td>Exchange Timestamp (optional)</td>
+			<td>String</td>
+			<td>1570803710878860000</td>
+			<td>Timestamp (expressed in nanoseconds) as provided by exchange, optional as not all exchanges provide this</td>
+		</tr>
+		<tr>
+			<td>Presence bit flag</td>
+			<td>String</td>
+			<td>0-1</td>
+			<td>Indicated which optional fields are present in packed message. Please refer to table below.</td>
+		</tr>
+		<tr>
 			<td>Message separator</td>
 			<td>Char</td>
 			<td>|</td>
@@ -130,6 +142,32 @@ Live Orderbook data will be sent in the format shown in the table below.
 	</tbody>
 </table>
 
-For example, a bid update for Kraken Ethereum to USD, which is flagged by the upstream data source as the 40th Kraken ETH-USD message sent, may take the form:
+## Presence bit flag
 
-> `8~kraken~ETH~USD~1~4~40~208.27~1.303|`
+The bitflag will indicate which optional fields are present in the message by combining the bits into a hex formatted numeric ASCII value. Irrespective of which fields are included in a message, they will be ordered based on numeric sequence as defined below.
+
+<table>
+	<thead>
+		<tr>
+			<th>Entry</th>
+			<th>Flag</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Exchange timestamp</td>
+			<td>1 (0x01)</td>
+		</tr>
+	</tbody>
+</table>
+
+
+For example, a bid update for Kraken Ethereum to USD without an exchange timestamp, which is flagged by the upstream data source as the 40th Kraken ETH-USD message sent, may take the form:
+
+> `8~kraken~ETH~USD~1~4~40~208.27~1.303~0|`
+
+A bid update for Kraken Ethereum to USD with an exchange timestamp, which is flagged by the upstream data source as the 40th Kraken ETH-USD message sent, may take the form:
+
+> `8~kraken~ETH~USD~1~4~40~208.27~1.303~1570803710878860000~1|`
+
+
