@@ -31,8 +31,7 @@ type subscription struct {
 
 func generateFormattedSubscription(sub subscription) string {
 
-	subMessage := `"`
-	subMessage += strconv.Itoa(sub.channel)
+	subMessage := strconv.Itoa(sub.channel)
 	subMessage += `~`
 	subMessage += sub.exchange
 	if len(sub.marketFrom) != 0 && len(sub.marketTo) != 0 {
@@ -42,7 +41,6 @@ func generateFormattedSubscription(sub subscription) string {
 		subMessage += `~`
 		subMessage += sub.marketTo
 	}
-	subMessage += `"`
 	return subMessage
 }
 
