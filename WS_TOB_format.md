@@ -129,3 +129,7 @@ Live Orderbook data will be sent in the format shown in the table below.
 For example, a best bid field update for Kraken Ethereum to USD, which is flagged by the upstream data source as the 10th Kraken ETH-USD message sent, may take the form:
 
 > `30~kraken~ETH~USD~1~10~100.10~6.05~1566398944495400100|`
+
+In the cases where at the start of a subscription a snapshot of the current top of book will be sent, or messages have been conflated together, the message will be ordered: bid|ask
+
+> `30~kraken~ETH~USD~1~10~100.10~6.05~1566398944495400100|30~kraken~ETH~USD~2~11~102~13.6~1566398943542383000|`
