@@ -66,4 +66,4 @@ The public interface is presently accessible via [wss://streaming.cryptocompare
 	</tbody>
 </table>
 
-A stack agnostic example of [how to request markets and subscribe to them](WS_step_by_step.md) is available as well as well as a detailed description of the streaming protocol which can be found in the [Websocket API reference](WS.md).
+A stack agnostic example of [how to request markets and subscribe to them](WS_step_by_step.md) is available as well as a detailed description of the streaming protocol which can be found in the [Websocket API reference](WS.md).
