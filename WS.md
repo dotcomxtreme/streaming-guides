@@ -133,6 +133,7 @@ The top of book data will send messages of the format shown below whenever the b
 
 The message schema for level 1 orderbook data is defined in [Orderbook top of book data format](WS_TOB_format.md).
 
+On initial subscription the current best bid and best ask values will be received. Should one or both sides be missing, an [Orderbook top of book no data format](WS_TOB_format.md) message will be received.
 
 ## Level 2 orderbook channel
 
