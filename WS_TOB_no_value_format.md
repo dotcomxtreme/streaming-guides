@@ -1,6 +1,6 @@
 # Level 1 (top of book) orderbook channel no data
 
-Live Orderbook data will be sent in the format shown in the table below.
+A Live message indicating that there is no Orderbook data for a given side will be sent in the format shown in the table below.
 
 <table>
 	<thead>
@@ -64,10 +64,10 @@ Live Orderbook data will be sent in the format shown in the table below.
 			<td>Side</td>
 			<td>Integer</td>
 			<td>
-                1 – Bid<br>
-                2 – Ask<br>
+				1 – Bid<br>
+				2 – Ask<br>
 			</td>
-			<td>Indicates if the following price represents a best bid or a best ask</td>
+			<td>Indicates if the message represents a best bid or a best ask</td>
 		</tr>
 		<tr>
 			<td>Message separator</td>
@@ -78,10 +78,10 @@ Live Orderbook data will be sent in the format shown in the table below.
 	</tbody>
 </table>
 
-Should a market be subscribed to without bids or asks (or be entirely empty) there might not be either (or both) a best bid or best ask.
+Should a market be subscribed to without bids or asks (or be entirely empty) there might not be either (or neither) a best bid or best ask.
 
 In this case, rather than receiving a [top of book](WS_TOP_format.md) message with zero values, a no value message will be received instead.
 
 For example, if the ETH-USD market has no bids in the orderbook, the following message may be received.
 
-> `31~kraken~ETH~USD~1~|`
+> `31~kraken~ETH~USD~1|`
