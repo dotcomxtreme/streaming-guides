@@ -24,7 +24,6 @@ CryptoCompare offers a number of different streaming and polling endpoints for r
 
 This document serves as a developer guide for integrating with the market data streamer service.
 
-Please note this service is presently in closed beta and subject to change.
 The public interface is presently accessible via [wss://streaming.cryptocompare.com/](wss://streaming.cryptocompare.com/) and will require IP whitelisting as well as an API key. This can be requested by contacting us [by email.](mailto:data@cryptocompare.com)
 
 ### Examples
@@ -66,4 +65,4 @@ The public interface is presently accessible via [wss://streaming.cryptocompare
 	</tbody>
 </table>
 
-A stack agnostic example of [how to request markets and subscribe to them](WS_step_by_step.md) is available as well as well as a detailed description of the streaming protocol which can be found in the [Websocket API reference](WS.md).
+A stack agnostic example of [how to request markets and subscribe to them](WS_step_by_step.md) is available as well as a detailed description of the streaming protocol which can be found in the [Websocket API reference](WS.md).
