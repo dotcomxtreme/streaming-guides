@@ -84,4 +84,4 @@ In this case, rather than receiving a [top of book](WS_TOB_format.md) message wi
 
 For example, if the ETH-USD market has no bids in the orderbook, the following message may be received.
 
-`31~kraken~ETH~USD~1|`
+> `31~kraken~ETH~USD~1|`
