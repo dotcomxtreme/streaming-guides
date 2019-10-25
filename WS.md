@@ -8,13 +8,15 @@ Data is sent using an ASCII streamer protocol with individual messages defined a
 
 Fields within messages are delimited by a ~ character and multiple messages are delimited by a | character which also serves as an end of message indicator.
 
-The streaming service sends a heartbeat message at 10 second intervals to all connected Websocket API clients. The format is as follows:
+The streaming service sends a [heartbeat message](WS_heartbeat_format.md) at 10 second intervals to all connected Websocket API clients. The format is as follows:
 
 > `999~HEARTBEAT|`
 
 Once a client connection has been established it is necessary for the connecting client to request at least one subscription in order to receive data.
 
 Clients who connect but do not open a subscription will be disconnected after a short grace period.
+
+Possible response codes are documented on the [error format page](WS_error_format.md)
 
 NB: The message formats are case-sensitive, with the exception of _**\[exchange]**_ which is case insensitive.
 
