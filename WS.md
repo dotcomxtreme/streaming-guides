@@ -16,7 +16,7 @@ Once a client connection has been established it is necessary for the connecting
 
 Clients who connect but do not open a subscription will be disconnected after a short grace period.
 
-Possible response codes are documented on the [error format page](WS_error_format.md)
+Possible error codes are documented on the [error format page](WS_error_format.md).
 
 NB: The message formats are case-sensitive, with the exception of _**\[exchange]**_ which is case insensitive.
 

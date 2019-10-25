@@ -90,7 +90,7 @@ An error message indicating that the exchange and/or instrument in a subscriptio
 			<td>Message Type</td>
 			<td>Integer</td>
 			<td>404</td>
-			<td>Identifier for a bad request error message</td>
+			<td>Identifier for a market not found error message</td>
 		</tr>
 		<tr>
 			<td>Default separator</td>
@@ -111,7 +111,7 @@ An error message indicating that the exchange and/or instrument in a subscriptio
 
 # Upstream not found error message
 
-An error message indicating that the server has lost connection to the data source.
+An error message indicating that the request couldn't be handled at this time, please try again in a few seconds.
 
 <table>
 	<thead>
@@ -127,7 +127,7 @@ An error message indicating that the server has lost connection to the data sour
 			<td>Message Type</td>
 			<td>Integer</td>
 			<td>503</td>
-			<td>Identifier for a bad request error message</td>
+			<td>Identifier for an upstream not found error message</td>
 		</tr>
 		<tr>
 			<td>Default separator</td>
