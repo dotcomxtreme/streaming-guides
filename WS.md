@@ -30,6 +30,8 @@ Data subscriptions are made for a given exchange / coin pair combination with on
 >     "subs": [**_SOURCE1_**, **_SOURCE2_** ...]
 > 
 >     "api_key": **_API_KEY_**
+>
+>     "mapped": **_boolean_** (optional, default = true)
 > 
 > }
 
@@ -122,6 +124,45 @@ Please refer to the sources field table below.
 		</tr>
 	</tbody>
 </table>
+
+### Mapped
+
+This is an optional parameter which instructs the streaming service to either treat the supplied instruments for subscriptions as _mapped_ in the CryptoCompare internal mapping format or as they are represented on the exchange.
+
+For many markets the mapped and unmapped representation will be the same. For example BTC-USD on Coinbase is the same mapped and unmapped. However where instrument ambiguity occurs, internal mapping will ensure that an instrument always uniquely identifies an asset irrespective of whether different exchanges use the same instrument id for different assets.
+
+An example of a difference between a mapped and unmapped instrument representation would be XBT-USD which is mapped to BTC-USD since XBT on Bitmex is the same instrument as BTC within the CryptoCompare market data platform.
+
+We can subscribe to this same example market in two ways using the mapped flag.
+
+Using the CryptoCompare mapped representation (same as our website):
+
+> {
+> 
+>     "action": "SubAdd"
+> 
+>     "subs": ["0~bitmex~**BTC~USD**"]
+> 
+>     "api_key": "ABC123"
+>
+>     "mapped": **true**
+> 
+> }
+
+Note the mapped field can be ommitted as by default it is considered to be true. It is included in the example above for clarity.
+
+Using the BitMex exchange market representation:
+> {
+> 
+>     "action": "SubAdd"
+> 
+>     "subs": ["0~bitmex~**XBT~USD**"]
+> 
+>     "api_key": "ABC123"
+>
+>     "mapped": **false**
+> 
+> }
 
 ## Trade channel
 
